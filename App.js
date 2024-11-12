@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,8 @@ import {
   FlatList,
   ActivityIndicator,
   StyleSheet,
+  Modal,
+  TouchableOpacity,
 } from "react-native";
 
 const App = () => {
@@ -13,6 +15,8 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const fetchMemes = async (page) => {
     try {
@@ -44,11 +48,18 @@ const App = () => {
     }
   };
 
+  const handleImagePress = (imgUrl) => {
+    setSelectedImage(imgUrl);
+    setModalVisible(true);
+  };
+
   const renderMemeItem = ({ item }) => (
     <View style={styles.memeContainer}>
       <Text style={styles.title}>{item.title}</Text>
       <Text style={styles.description}>{item.description}</Text>
-      <Image source={{ uri: item.img_url }} style={styles.image} />
+      <TouchableOpacity onPress={() => handleImagePress(item.img_url)}>
+        <Image source={{ uri: item.img_url }} style={styles.image} />
+      </TouchableOpacity>
       <View style={styles.endSeccion}>
         <Text style={styles.likes}>👍 {item.likes}</Text>
         <Text style={styles.user}>Posted by: {item.user}</Text>
@@ -57,14 +68,39 @@ const App = () => {
   );
 
   return (
-    <FlatList
-      data={memes}
-      renderItem={renderMemeItem}
-      keyExtractor={(item) => item.filename}
-      onEndReached={loadMoreMemes}
-      onEndReachedThreshold={0.5}
-      ListFooterComponent={loading ? <ActivityIndicator size="large" /> : null}
-    />
+    <View style={{ flex: 1 }}>
+      <FlatList
+        data={memes}
+        renderItem={renderMemeItem}
+        keyExtractor={(item) => item.filename}
+        onEndReached={loadMoreMemes}
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={
+          loading ? <ActivityIndicator size="large" /> : null
+        }
+      />
+
+      {/* Modal for full-screen image view */}
+      <Modal
+        visible={modalVisible}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={() => setModalVisible(false)}
+          >
+            <Text style={styles.closeButtonText}>Close</Text>
+          </TouchableOpacity>
+          <Image
+            source={{ uri: selectedImage }}
+            style={styles.fullScreenImage}
+          />
+        </View>
+      </Modal>
+    </View>
   );
 };
 
@@ -117,6 +153,31 @@ const styles = StyleSheet.create({
   endSeccion: {
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.9)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  fullScreenImage: {
+    width: "90%",
+    height: "80%",
+    resizeMode: "contain",
+    borderRadius: 8,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 40,
+    right: 20,
+    backgroundColor: "#fff",
+    padding: 10,
+    borderRadius: 5,
+  },
+  closeButtonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#333",
   },
 });
 
