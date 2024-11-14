@@ -1,5 +1,5 @@
 import { Text, View, Image, TouchableOpacity } from "react-native";
-import memeItemStyles from "./memeitemstyles";
+import memeItemStyles from "./memeItemStyles";
 
 function MemeItem({ item, handleImagePress }) {
   return (

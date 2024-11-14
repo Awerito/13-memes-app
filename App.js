@@ -12,8 +12,8 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MemeItem from "./components/MemeItem";
-import styles from "./styles";
 import loginStyles from "./loginStyles";
+import imageStyles from "./imageStyles";
 
 const App = () => {
   const [memes, setMemes] = useState([]);
@@ -98,8 +98,6 @@ const App = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <Button title="Login" onPress={handleLoginPress} />
-
       <FlatList
         data={memes}
         renderItem={({ item }) => (
@@ -120,16 +118,16 @@ const App = () => {
         animationType="slide"
         onRequestClose={() => setModalImageVisible(false)}
       >
-        <View style={styles.modalContainer}>
+        <View style={imageStyles.modalContainer}>
           <TouchableOpacity
-            style={styles.closeButton}
+            style={imageStyles.closeButton}
             onPress={() => setModalImageVisible(false)}
           >
-            <Text style={styles.closeButtonText}>Close</Text>
+            <Text style={imageStyles.closeButtonText}>Close</Text>
           </TouchableOpacity>
           <Image
             source={{ uri: selectedImage }}
-            style={styles.fullScreenImage}
+            style={imageStyles.fullScreenImage}
           />
         </View>
       </Modal>
@@ -162,6 +160,8 @@ const App = () => {
           </View>
         </View>
       </Modal>
+
+      <Button title="Login" onPress={handleLoginPress} />
     </View>
   );
 };
