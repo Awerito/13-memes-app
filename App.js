@@ -7,16 +7,26 @@ import {
   ActivityIndicator,
   Modal,
   TouchableOpacity,
+  Button,
+  TextInput,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import MemeItem from "./components/MemeItem";
 import styles from "./styles";
+import loginStyles from "./loginStyles";
 
 const App = () => {
   const [memes, setMemes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [modalVisible, setModalVisible] = useState(false);
+
+  const [modalImageVisible, setModalImageVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+
+  const [modalLoginVisible, setModalLoginVisible] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const fetchMemes = async (page) => {
     try {
@@ -50,28 +60,51 @@ const App = () => {
 
   const handleImagePress = (imgUrl) => {
     setSelectedImage(imgUrl);
-    setModalVisible(true);
+    setModalImageVisible(true);
   };
 
-  const renderMemeItem = ({ item }) => (
-    <View style={styles.memeContainer}>
-      <Text style={styles.title}>{item.title}</Text>
-      <Text style={styles.description}>{item.description}</Text>
-      <TouchableOpacity onPress={() => handleImagePress(item.img_url)}>
-        <Image source={{ uri: item.img_url }} style={styles.image} />
-      </TouchableOpacity>
-      <View style={styles.endSeccion}>
-        <Text style={styles.likes}>👍 {item.likes}</Text>
-        <Text style={styles.user}>Posted by: {item.user}</Text>
-      </View>
-    </View>
-  );
+  const handleLoginPress = () => {
+    setModalLoginVisible(true);
+  };
+
+  const handleLogin = () => {
+    fetch("https://memes-api.grye.org/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        accept: "application/json",
+      },
+      body: new URLSearchParams({
+        username: username,
+        password: password,
+        // scope: "",
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.access_token) {
+          AsyncStorage.setItem("token", data.jwt);
+          setModalLoginVisible(false);
+          alert("Login successful!");
+        } else {
+          alert("Login failed");
+        }
+      })
+      .catch((error) => {
+        console.error("Login error:", error);
+      });
+  };
 
   return (
     <View style={{ flex: 1 }}>
+      <Button title="Login" onPress={handleLoginPress} />
+
       <FlatList
         data={memes}
-        renderItem={renderMemeItem}
+        renderItem={({ item }) => (
+          <MemeItem item={item} handleImagePress={handleImagePress} />
+        )}
         keyExtractor={(item) => item.filename}
         onEndReached={loadMoreMemes}
         onEndReachedThreshold={0.5}
@@ -80,17 +113,17 @@ const App = () => {
         }
       />
 
-      {/* Modal for full-screen image view */}
+      {/* Full screen image modal */}
       <Modal
-        visible={modalVisible}
+        visible={modalImageVisible}
         transparent={true}
-        animationType="fade"
-        onRequestClose={() => setModalVisible(false)}
+        animationType="slide"
+        onRequestClose={() => setModalImageVisible(false)}
       >
         <View style={styles.modalContainer}>
           <TouchableOpacity
             style={styles.closeButton}
-            onPress={() => setModalVisible(false)}
+            onPress={() => setModalImageVisible(false)}
           >
             <Text style={styles.closeButtonText}>Close</Text>
           </TouchableOpacity>
@@ -98,6 +131,35 @@ const App = () => {
             source={{ uri: selectedImage }}
             style={styles.fullScreenImage}
           />
+        </View>
+      </Modal>
+
+      {/* Login Modal */}
+      <Modal
+        visible={modalLoginVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setModalLoginVisible(false)}
+      >
+        <View style={loginStyles.modalContainer}>
+          <View style={loginStyles.modalContent}>
+            <Text>Login</Text>
+            <TextInput
+              placeholder="Username"
+              value={username}
+              onChangeText={setUsername}
+              style={loginStyles.input}
+            />
+            <TextInput
+              placeholder="Password"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+              style={loginStyles.input}
+            />
+            <Button title="Submit" onPress={handleLogin} />
+            <Button title="Close" onPress={() => setModalLoginVisible(false)} />
+          </View>
         </View>
       </Modal>
     </View>
