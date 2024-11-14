@@ -41,6 +41,12 @@ Make sure you have the following installed before getting started:
    yarn
    ```
 
+1. Setup JS Debuger by making sure you have the following:
+
+   ```bash
+   export EDGE_PATH=/path/to/browser
+   ```
+
 ## Available Scripts
 
 In the project directory, you can run the following commands:
