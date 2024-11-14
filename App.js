@@ -67,15 +67,16 @@ const App = () => {
       body: new URLSearchParams({
         username: username,
         password: password,
-      }),
+      }).toString(),
     })
       .then((response) => response.json())
       .then((data) => {
         if (data.access_token) {
-          AsyncStorage.setItem("token", data.jwt);
+          AsyncStorage.setItem("token", data.access_token);
           setModalLoginVisible(false);
           alert("Login successful!");
         } else {
+          console.log(data);
           alert("Login failed");
         }
       })
