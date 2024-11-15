@@ -53,7 +53,10 @@ const App = () => {
               password={password}
               onUsernameChange={setUsername}
               onPasswordChange={setPassword}
-              onLogin={() => loginUser(username, password)}
+              onLogin={() => {
+                loginUser(username, password);
+                setModalLoginVisible(false);
+              }}
               onClose={() => setModalLoginVisible(false)}
             />
 
