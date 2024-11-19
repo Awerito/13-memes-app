@@ -84,9 +84,7 @@ const Home = () => {
       />
 
       {isAuthenticated ? (
-        <>
-          <Button title="Upload Meme" onPress={handleOpenUploadPress} />
-        </>
+        <Button title="Upload Meme" onPress={handleOpenUploadPress} />
       ) : (
         <Button title="Login" onPress={handleOpenLoginPress} />
       )}
