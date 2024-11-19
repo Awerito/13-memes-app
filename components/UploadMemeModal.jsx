@@ -16,6 +16,16 @@ const UploadMemeModal = ({ visible, onClose, onUpload }) => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const pickImage = async () => {
+    const storagePermission =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (storagePermission.status !== "granted") {
+      Alert.alert(
+        "Permission required",
+        "Permission to access media library is required!",
+      );
+      return;
+    }
+
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: "images",
       allowsEditing: false,

@@ -34,7 +34,6 @@ const Home = () => {
   };
 
   const handleUpload = async (image, title, description) => {
-    console.log("Image:", image);
     try {
       await uploadMeme(image, title, description); // Call uploadMeme function
       Alert.alert("Success", "Meme uploaded successfully!");
