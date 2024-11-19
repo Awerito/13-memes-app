@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as FileSystem from "expo-file-system";
+import { Platform } from "react-native";
 
 const useUploadMeme = () => {
   const uploadMeme = async (selectedImage, title, description) => {
@@ -20,22 +21,26 @@ const useUploadMeme = () => {
         title,
       )}&description=${encodeURIComponent(description)}`;
 
-      const fileUri = selectedImage.uri;
-      const fileName = selectedImage.fileName || "upload.jpg";
-
-      const tempFileUri = `${FileSystem.cacheDirectory}${fileName}`;
-
-      await FileSystem.copyAsync({
-        from: fileUri,
-        to: tempFileUri,
-      });
-
       const formData = new FormData();
-      formData.append("file", {
-        uri: tempFileUri,
-        name: fileName,
-        type: selectedImage.mimeType || "image/jpeg",
-      });
+
+      if (Platform.OS === "web") {
+        formData.append("file", selectedImage.file);
+      } else {
+        const fileUri = selectedImage.uri;
+        const fileName = selectedImage.fileName || "upload.jpg";
+
+        const tempFileUri = `${FileSystem.cacheDirectory}${fileName}`;
+        await FileSystem.copyAsync({
+          from: fileUri,
+          to: tempFileUri,
+        });
+
+        formData.append("file", {
+          uri: tempFileUri,
+          name: fileName,
+          type: selectedImage.mimeType || "image/jpeg",
+        });
+      }
 
       const response = await fetch(url, {
         method: "POST",
