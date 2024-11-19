@@ -20,7 +20,6 @@ export const AuthProvider = ({ children }) => {
         if (data.access_token) {
           AsyncStorage.setItem("credentials", JSON.stringify(data));
           setIsAuthenticated(true);
-          console.log(data);
           return { success: true };
         } else {
           return { success: false, message: "Login failed" };
@@ -32,14 +31,14 @@ export const AuthProvider = ({ children }) => {
       });
   };
 
-  const logoutUser = () => {
-    return AsyncStorage.removeItem("token").then(() =>
-      setIsAuthenticated(false),
-    );
-  };
+  // const logoutUser = () => {
+  //   return AsyncStorage.removeItem("token").then(() =>
+  //     setIsAuthenticated(false),
+  //   );
+  // };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, loginUser, logoutUser }}>
+    <AuthContext.Provider value={{ isAuthenticated, loginUser }}>
       {children}
     </AuthContext.Provider>
   );
