@@ -49,9 +49,9 @@ const Home = () => {
       />
 
       <ImageModal
-        visible={modalImageVisible}
         imageUrl={selectedImage}
-        onClose={() => setModalImageVisible(false)}
+        visible={modalImageVisible}
+        setVisible={setModalImageVisible}
       />
 
       <LoginModal
