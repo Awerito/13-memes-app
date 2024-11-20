@@ -9,12 +9,10 @@ import useMemes from "../services/useMemes";
 import useUploadMeme from "../services/useUploadMeme";
 
 const Home = () => {
+  const { isAuthenticated } = useContext(AuthContext);
   const { memes, loading, loadMoreMemes } = useMemes();
   const { uploadMeme } = useUploadMeme(); // Get uploadMeme from hook
-  const { loginUser, isAuthenticated } = useContext(AuthContext);
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
   const [modalImageVisible, setModalImageVisible] = useState(false);
   const [modalLoginVisible, setModalLoginVisible] = useState(false);
@@ -23,14 +21,6 @@ const Home = () => {
   const handleImagePress = (imgUrl) => {
     setSelectedImage(imgUrl);
     setModalImageVisible(true);
-  };
-
-  const handleOpenLoginPress = () => {
-    setModalLoginVisible(true);
-  };
-
-  const handleOpenUploadPress = () => {
-    setModalUploadVisible(true);
   };
 
   const handleUpload = async (image, title, description) => {
@@ -66,15 +56,7 @@ const Home = () => {
 
       <LoginModal
         visible={modalLoginVisible}
-        username={username}
-        password={password}
-        onUsernameChange={setUsername}
-        onPasswordChange={setPassword}
-        onLogin={() => {
-          loginUser(username, password);
-          setModalLoginVisible(false);
-        }}
-        onClose={() => setModalLoginVisible(false)}
+        setVisible={setModalLoginVisible}
       />
 
       <UploadMemeModal
@@ -84,9 +66,9 @@ const Home = () => {
       />
 
       {isAuthenticated ? (
-        <Button title="Upload Meme" onPress={handleOpenUploadPress} />
+        <Button title="Upload" onPress={() => setModalUploadVisible(true)} />
       ) : (
-        <Button title="Login" onPress={handleOpenLoginPress} />
+        <Button title="Login" onPress={() => setModalLoginVisible(true)} />
       )}
     </View>
   );

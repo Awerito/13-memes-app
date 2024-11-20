@@ -10,12 +10,14 @@ export const AuthProvider = ({ children }) => {
   const loginUser = async (username, password) => {
     const [creds, error] = await login(username, password);
     if (error) {
-      console.error(error);
       setIsAuthenticated(false);
-    } else {
-      setCredentials(creds);
-      setIsAuthenticated(true);
+      alert(error);
+      return false;
     }
+
+    setCredentials(creds);
+    setIsAuthenticated(true);
+    return true;
   };
 
   return (
