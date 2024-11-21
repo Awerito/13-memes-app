@@ -26,6 +26,29 @@ export const login = async (username, password) => {
   }
 };
 
+export const register = async (username, password) => {
+  try {
+    const response = await fetch(`${baseUrl}/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        accept: "application/json",
+      },
+      body: new URLSearchParams({ username, password }).toString(),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return [null, data.detail || "Register failed"];
+    }
+
+    return [data, null];
+  } catch (error) {
+    return [null, error.message];
+  }
+};
+
 export const getMemes = async (page, limit) => {
   try {
     const url = `${baseUrl}/memes/?page=${page}&limit=${limit}`;
@@ -42,6 +65,7 @@ export const getMemes = async (page, limit) => {
     return [null, error.message];
   }
 };
+
 export const postMeme = async (token, title, description, image) => {
   try {
     if (!token) {

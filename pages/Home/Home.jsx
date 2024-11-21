@@ -4,6 +4,7 @@ import MemeItem from "../../components/MemeItem/MemeItem";
 import ImageModal from "../../components/ImageModal/ImageModal";
 import LoginModal from "../../components/LoginModal/LoginModal";
 import UploadMemeModal from "../../components/UploadMemeModal/UploadMemeModal";
+import RegisterModal from "../../components/RegisterModal/RegisterModal";
 import { AuthContext } from "../../context/AuthContext";
 import useMemes from "../../hooks/useMemes";
 import styles from "./HomeStyles.jsx";
@@ -18,6 +19,7 @@ const Home = () => {
   const [modalImageVisible, setModalImageVisible] = useState(false);
   const [modalLoginVisible, setModalLoginVisible] = useState(false);
   const [modalUploadVisible, setModalUploadVisible] = useState(false);
+  const [modalRegisterVisible, setModalRegisterVisible] = useState(false);
 
   const handleImagePress = (imgUrl) => {
     setSelectedImage(imgUrl);
@@ -55,13 +57,21 @@ const Home = () => {
         setVisible={setModalUploadVisible}
       />
 
+      <RegisterModal
+        visible={modalRegisterVisible}
+        setVisible={setModalRegisterVisible}
+      />
+
       <View style={styles.buttonContainer}>
         {isAuthenticated ? (
           <Button title="Upload" onPress={() => setModalUploadVisible(true)} />
         ) : (
           <>
             <Button title="Login" onPress={() => setModalLoginVisible(true)} />
-            <Button title="Register" onPress={() => console.log("WIP")} />
+            <Button
+              title="Register"
+              onPress={() => setModalRegisterVisible(true)}
+            />
           </>
         )}
       </View>
