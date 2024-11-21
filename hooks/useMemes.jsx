@@ -8,16 +8,27 @@ const useMemes = () => {
   const [hasMore, setHasMore] = useState(true);
 
   const fetchMemes = (page) => {
+    if (!hasMore) {
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     getMemes(page, 10)
       .then(([data, error]) => {
         if (error) {
           console.error(error);
+          setLoading(false);
           return;
         }
 
-        setHasMore(!!data);
-        if (!!data) setMemes((prevMemes) => [...prevMemes, ...data]);
+        if (data.length < 10) {
+          setHasMore(false);
+        }
+
+        if (data.length) {
+          setMemes((prevMemes) => [...prevMemes, ...data]);
+        }
       })
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
@@ -28,6 +39,7 @@ const useMemes = () => {
   }, [page]);
 
   const loadMoreMemes = () => {
+    console.log(hasMore, isLoading, page);
     if (hasMore && !isLoading) {
       setPage((prevPage) => prevPage + 1);
     }
