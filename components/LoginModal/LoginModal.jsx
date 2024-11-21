@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { Modal, View, Text, TextInput, Button } from "react-native";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import loginStyles from "./loginStyles";
 
 const LoginModal = ({ visible, setVisible }) => {

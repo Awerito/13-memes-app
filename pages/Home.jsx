@@ -1,9 +1,9 @@
 import { useState, useContext } from "react";
 import { View, FlatList, ActivityIndicator, Button } from "react-native";
-import MemeItem from "../components/MemeItem";
-import ImageModal from "../components/ImageModal";
-import LoginModal from "../components/LoginModal";
-import UploadMemeModal from "../components/UploadMemeModal";
+import MemeItem from "../components/MemeItem/MemeItem";
+import ImageModal from "../components/ImageModal/ImageModal";
+import LoginModal from "../components/LoginModal/LoginModal";
+import UploadMemeModal from "../components/UploadMemeModal/UploadMemeModal";
 import { AuthContext } from "../context/AuthContext";
 import useMemes from "../hooks/useMemes";
 import useUploadMeme from "../services/useUploadMeme";
