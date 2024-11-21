@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-const memeItemStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   memeContainer: {
     padding: 15,
     marginVertical: 10,
@@ -52,4 +52,4 @@ const memeItemStyles = StyleSheet.create({
   },
 });
 
-export default memeItemStyles;
+export default styles;

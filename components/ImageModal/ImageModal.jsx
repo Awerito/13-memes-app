@@ -1,5 +1,5 @@
 import { Modal, View, Image, TouchableOpacity, Text } from "react-native";
-import imageStyles from "./imageStyles";
+import styles from "./ImageModalStyles";
 
 const ImageModal = ({ visible, setVisible, imageUrl }) => {
   return (
@@ -9,14 +9,14 @@ const ImageModal = ({ visible, setVisible, imageUrl }) => {
       animationType="slide"
       onRequestClose={() => setVisible(false)}
     >
-      <View style={imageStyles.modalContainer}>
+      <View style={styles.modalContainer}>
         <TouchableOpacity
-          style={imageStyles.closeButton}
+          style={styles.closeButton}
           onPress={() => setVisible(false)}
         >
-          <Text style={imageStyles.closeButtonText}>Close</Text>
+          <Text style={styles.closeButtonText}>Close</Text>
         </TouchableOpacity>
-        <Image source={{ uri: imageUrl }} style={imageStyles.fullScreenImage} />
+        <Image source={{ uri: imageUrl }} style={styles.fullScreenImage} />
       </View>
     </Modal>
   );

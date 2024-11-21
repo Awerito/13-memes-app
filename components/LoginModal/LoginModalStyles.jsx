@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-const loginStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     justifyContent: "center",
@@ -28,4 +28,4 @@ const loginStyles = StyleSheet.create({
   },
 });
 
-export default loginStyles;
+export default styles;

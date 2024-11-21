@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { Modal, View, Text, TextInput, Button } from "react-native";
 import { AuthContext } from "../../context/AuthContext";
-import loginStyles from "./loginStyles";
+import styles from "./LoginModalStyles";
 
 const LoginModal = ({ visible, setVisible }) => {
   const [username, setUsername] = useState("");
@@ -22,21 +22,21 @@ const LoginModal = ({ visible, setVisible }) => {
       animationType="slide"
       onRequestClose={() => setVisible(false)}
     >
-      <View style={loginStyles.modalContainer}>
-        <View style={loginStyles.modalContent}>
+      <View style={styles.modalContainer}>
+        <View style={styles.modalContent}>
           <Text>Login</Text>
           <TextInput
             placeholder="Username"
             value={username}
             onChangeText={setUsername}
-            style={loginStyles.input}
+            style={styles.input}
           />
           <TextInput
             placeholder="Password"
             value={password}
             onChangeText={setPassword}
             secureTextEntry
-            style={loginStyles.input}
+            style={styles.input}
           />
           <Button title="Submit" onPress={handleSubmit} />
           <Button title="Close" onPress={() => setVisible(false)} />

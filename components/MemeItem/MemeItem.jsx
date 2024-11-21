@@ -1,17 +1,17 @@
 import { Text, View, Image, TouchableOpacity } from "react-native";
-import memeItemStyles from "./memeItemStyles";
+import styles from "./MemeItemStyles";
 
 function MemeItem({ item, handleImagePress }) {
   return (
-    <View style={memeItemStyles.memeContainer}>
-      <Text style={memeItemStyles.title}>{item.title}</Text>
-      <Text style={memeItemStyles.description}>{item.description}</Text>
+    <View style={styles.memeContainer}>
+      <Text style={styles.title}>{item.title}</Text>
+      <Text style={styles.description}>{item.description}</Text>
       <TouchableOpacity onPress={() => handleImagePress(item.img_url)}>
-        <Image source={{ uri: item.img_url }} style={memeItemStyles.image} />
+        <Image source={{ uri: item.img_url }} style={styles.image} />
       </TouchableOpacity>
-      <View style={memeItemStyles.endSeccion}>
-        <Text style={memeItemStyles.likes}>👍 {item.likes}</Text>
-        <Text style={memeItemStyles.user}>Posted by: {item.user}</Text>
+      <View style={styles.endSeccion}>
+        <Text style={styles.likes}>👍 {item.likes}</Text>
+        <Text style={styles.user}>Posted by: {item.user}</Text>
       </View>
     </View>
   );

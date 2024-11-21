@@ -1,14 +1,7 @@
 import { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  Modal,
-  StyleSheet,
-  Alert,
-} from "react-native";
+import { View, Text, TextInput, Button, Modal, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import styles from "./UploadMemeModalStyles";
 
 const UploadMemeModal = ({ visible, onClose, onUpload }) => {
   const [title, setTitle] = useState("");
@@ -73,31 +66,5 @@ const UploadMemeModal = ({ visible, onClose, onUpload }) => {
     </Modal>
   );
 };
-
-const styles = StyleSheet.create({
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContent: {
-    backgroundColor: "white",
-    padding: 20,
-    borderRadius: 10,
-    width: "80%",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "gray",
-    padding: 8,
-    marginVertical: 10,
-    borderRadius: 5,
-  },
-  imageName: {
-    marginVertical: 10,
-    fontStyle: "italic",
-  },
-});
 
 export default UploadMemeModal;
