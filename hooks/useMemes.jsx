@@ -34,9 +34,12 @@ const useMemes = () => {
       .finally(() => setLoading(false));
   };
 
-  useEffect(() => {
-    fetchMemes(page);
-  }, [page]);
+  const refreshMemes = () => {
+    setMemes([]);
+    setHasMore(true);
+    setPage(1);
+    fetchMemes(1);
+  };
 
   const loadMoreMemes = () => {
     if (hasMore && !isLoading) {
@@ -44,7 +47,11 @@ const useMemes = () => {
     }
   };
 
-  return { memes, isLoading, loadMoreMemes };
+  useEffect(() => {
+    fetchMemes(page);
+  }, [page]);
+
+  return { memes, isLoading, loadMoreMemes, refreshMemes };
 };
 
 export default useMemes;

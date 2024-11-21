@@ -12,7 +12,7 @@ import styles from "./HomeStyles.jsx";
 const Home = () => {
   const { isAuthenticated } = useContext(AuthContext);
 
-  const { memes, isLoading, loadMoreMemes } = useMemes();
+  const { memes, isLoading, loadMoreMemes, refreshMemes } = useMemes();
 
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -55,6 +55,7 @@ const Home = () => {
       <UploadMemeModal
         visible={modalUploadVisible}
         setVisible={setModalUploadVisible}
+        refreshMemes={refreshMemes}
       />
 
       <RegisterModal

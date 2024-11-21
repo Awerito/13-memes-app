@@ -5,7 +5,7 @@ import styles from "./UploadMemeModalStyles";
 import { postMeme } from "../../services/memes";
 import { AuthContext } from "../../context/AuthContext";
 
-const UploadMemeModal = ({ visible, setVisible }) => {
+const UploadMemeModal = ({ visible, setVisible, refreshMemes }) => {
   const { credentials, isAuthenticated } = useContext(AuthContext);
 
   const [title, setTitle] = useState("");
@@ -36,7 +36,6 @@ const UploadMemeModal = ({ visible, setVisible }) => {
       alert("Please complete all fields and select an image.");
       return;
     }
-    console.log("Credentials", credentials);
     if (!isAuthenticated || !credentials) {
       alert("You must be logged in to upload a meme!");
       return;
@@ -49,6 +48,7 @@ const UploadMemeModal = ({ visible, setVisible }) => {
         }
         console.log("Meme uploaded successfully!", data);
         setVisible(false);
+        refreshMemes();
       },
     );
   };
