@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   memeContainer: {
     padding: 15,
-    marginVertical: 10,
+    marginVertical: 5,
     marginHorizontal: 15,
     borderWidth: 1,
     borderColor: "#ddd",
@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
-    marginTop: 50,
   },
   title: {
     fontSize: 20,

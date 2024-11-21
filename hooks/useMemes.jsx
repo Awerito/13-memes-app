@@ -39,7 +39,6 @@ const useMemes = () => {
   }, [page]);
 
   const loadMoreMemes = () => {
-    console.log(hasMore, isLoading, page);
     if (hasMore && !isLoading) {
       setPage((prevPage) => prevPage + 1);
     }

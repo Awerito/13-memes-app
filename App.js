@@ -1,4 +1,4 @@
-import Home from "./pages/Home";
+import Home from "./pages/Home/Home";
 import { AuthProvider } from "./context/AuthContext";
 
 const App = () => {

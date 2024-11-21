@@ -1,11 +1,12 @@
 import { useState, useContext } from "react";
 import { View, FlatList, ActivityIndicator, Button } from "react-native";
-import MemeItem from "../components/MemeItem/MemeItem";
-import ImageModal from "../components/ImageModal/ImageModal";
-import LoginModal from "../components/LoginModal/LoginModal";
-import UploadMemeModal from "../components/UploadMemeModal/UploadMemeModal";
-import { AuthContext } from "../context/AuthContext";
-import useMemes from "../hooks/useMemes";
+import MemeItem from "../../components/MemeItem/MemeItem";
+import ImageModal from "../../components/ImageModal/ImageModal";
+import LoginModal from "../../components/LoginModal/LoginModal";
+import UploadMemeModal from "../../components/UploadMemeModal/UploadMemeModal";
+import { AuthContext } from "../../context/AuthContext";
+import useMemes from "../../hooks/useMemes";
+import styles from "./HomeStyles.jsx";
 
 const Home = () => {
   const { isAuthenticated } = useContext(AuthContext);
@@ -24,13 +25,13 @@ const Home = () => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       <FlatList
         data={memes}
         renderItem={({ item }) => (
           <MemeItem item={item} handleImagePress={handleImagePress} />
         )}
-        keyExtractor={(item) => item.filename}
+        keyExtractor={(item) => item._id}
         onEndReached={loadMoreMemes}
         onEndReachedThreshold={0.5}
         ListFooterComponent={
@@ -54,11 +55,16 @@ const Home = () => {
         setVisible={setModalUploadVisible}
       />
 
-      {isAuthenticated ? (
-        <Button title="Upload" onPress={() => setModalUploadVisible(true)} />
-      ) : (
-        <Button title="Login" onPress={() => setModalLoginVisible(true)} />
-      )}
+      <View style={styles.buttonContainer}>
+        {isAuthenticated ? (
+          <Button title="Upload" onPress={() => setModalUploadVisible(true)} />
+        ) : (
+          <>
+            <Button title="Login" onPress={() => setModalLoginVisible(true)} />
+            <Button title="Register" onPress={() => console.log("WIP")} />
+          </>
+        )}
+      </View>
     </View>
   );
 };
