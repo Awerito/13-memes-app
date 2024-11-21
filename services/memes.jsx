@@ -28,9 +28,8 @@ export const login = async (username, password) => {
 
 export const getMemes = async (page, limit) => {
   try {
-    const response = await fetch(
-      `https://memes-api.grye.org/memes/?page=${page}&limit=${limit}`,
-    );
+    const url = `${baseUrl}/memes/?page=${page}&limit=${limit}`;
+    const response = await fetch(url);
 
     const data = await response.json();
 
