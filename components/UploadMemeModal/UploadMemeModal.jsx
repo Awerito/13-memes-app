@@ -1,21 +1,22 @@
-import { useState } from "react";
-import { View, Text, TextInput, Button, Modal, Alert } from "react-native";
+import { useState, useContext } from "react";
+import { View, Text, TextInput, Button, Modal } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import styles from "./UploadMemeModalStyles";
+import { postMeme } from "../../services/memes";
+import { AuthContext } from "../../context/AuthContext";
 
-const UploadMemeModal = ({ visible, onClose, onUpload }) => {
+const UploadMemeModal = ({ visible, setVisible }) => {
+  const { credentials, isAuthenticated } = useContext(AuthContext);
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [image, setSelectedImage] = useState(null);
 
   const pickImage = async () => {
     const storagePermission =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (storagePermission.status !== "granted") {
-      Alert.alert(
-        "Permission required",
-        "Permission to access media library is required!",
-      );
+      alert("Permission to access media library is required!");
       return;
     }
 
@@ -31,15 +32,34 @@ const UploadMemeModal = ({ visible, onClose, onUpload }) => {
   };
 
   const handleUpload = () => {
-    if (!selectedImage || !title || !description) {
-      Alert.alert("Error", "Please complete all fields and select an image.");
+    if (!image || !title || !description) {
+      alert("Please complete all fields and select an image.");
       return;
     }
-    onUpload(selectedImage, title, description);
+    console.log("Credentials", credentials);
+    if (!isAuthenticated || !credentials) {
+      alert("You must be logged in to upload a meme!");
+      return;
+    }
+    postMeme(credentials.access_token, title, description, image).then(
+      ([data, error]) => {
+        if (error) {
+          alert(error);
+          return;
+        }
+        console.log("Meme uploaded successfully!", data);
+        setVisible(false);
+      },
+    );
   };
 
   return (
-    <Modal visible={visible} transparent={true} animationType="slide">
+    <Modal
+      visible={visible}
+      transparent={true}
+      animationType="slide"
+      onRequestClose={() => setVisible(false)}
+    >
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <Text>Upload Meme</Text>
@@ -55,12 +75,10 @@ const UploadMemeModal = ({ visible, onClose, onUpload }) => {
             onChangeText={setDescription}
             style={styles.input}
           />
+          {image && <Text style={styles.imageName}>{image.fileName}</Text>}
           <Button title="Select Image" onPress={pickImage} />
-          {selectedImage && (
-            <Text style={styles.imageName}>{selectedImage.fileName}</Text>
-          )}
           <Button title="Upload" onPress={handleUpload} />
-          <Button title="Close" onPress={onClose} />
+          <Button title="Close" onPress={() => setVisible(false)} />
         </View>
       </View>
     </Modal>

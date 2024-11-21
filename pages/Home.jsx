@@ -6,15 +6,14 @@ import LoginModal from "../components/LoginModal/LoginModal";
 import UploadMemeModal from "../components/UploadMemeModal/UploadMemeModal";
 import { AuthContext } from "../context/AuthContext";
 import useMemes from "../hooks/useMemes";
-import useUploadMeme from "../services/useUploadMeme";
 
 const Home = () => {
   const { isAuthenticated } = useContext(AuthContext);
 
   const { memes, isLoading, loadMoreMemes } = useMemes();
-  const { uploadMeme } = useUploadMeme(); // Get uploadMeme from hook
 
   const [selectedImage, setSelectedImage] = useState(null);
+
   const [modalImageVisible, setModalImageVisible] = useState(false);
   const [modalLoginVisible, setModalLoginVisible] = useState(false);
   const [modalUploadVisible, setModalUploadVisible] = useState(false);
@@ -22,16 +21,6 @@ const Home = () => {
   const handleImagePress = (imgUrl) => {
     setSelectedImage(imgUrl);
     setModalImageVisible(true);
-  };
-
-  const handleUpload = async (image, title, description) => {
-    try {
-      await uploadMeme(image, title, description); // Call uploadMeme function
-      alert("Success", "Meme uploaded successfully!");
-      setModalUploadVisible(false);
-    } catch (error) {
-      alert("Error", error.message || "Failed to upload meme.");
-    }
   };
 
   return (
@@ -62,8 +51,7 @@ const Home = () => {
 
       <UploadMemeModal
         visible={modalUploadVisible}
-        onClose={() => setModalUploadVisible(false)}
-        onUpload={handleUpload} // Pass handleUpload
+        setVisible={setModalUploadVisible}
       />
 
       {isAuthenticated ? (

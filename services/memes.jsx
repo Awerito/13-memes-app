@@ -1,3 +1,6 @@
+import { Platform } from "react-native";
+import * as FileSystem from "expo-file-system";
+
 const baseUrl = "https://memes-api.grye.org";
 
 export const login = async (username, password) => {
@@ -38,5 +41,54 @@ export const getMemes = async (page, limit) => {
     return [data, null];
   } catch (error) {
     return [null, error.message];
+  }
+};
+export const postMeme = async (token, title, description, image) => {
+  try {
+    if (!token) {
+      return [null, "You must be logged in to upload a meme!"];
+    }
+
+    const url = `${baseUrl}/memes/?title=${encodeURIComponent(
+      title,
+    )}&description=${encodeURIComponent(description)}`;
+
+    const formData = new FormData();
+
+    if (Platform.OS === "web") {
+      formData.append("file", image.file);
+    } else {
+      const fileName = image.fileName || "upload.jpg";
+
+      const tempFileUri = `${FileSystem.cacheDirectory}${fileName}`;
+      await FileSystem.copyAsync({
+        from: image.uri,
+        to: tempFileUri,
+      });
+
+      formData.append("file", {
+        uri: tempFileUri,
+        name: fileName,
+        type: image.mimeType || "image/jpeg",
+      });
+    }
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return [null, errorData.message || "Failed to upload meme."];
+    }
+
+    return ["Meme uploaded successfully!", null];
+  } catch (error) {
+    return [null, error.message || "An error occurred while uploading."];
   }
 };
