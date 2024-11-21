@@ -41,12 +41,11 @@ const UploadMemeModal = ({ visible, setVisible, refreshMemes }) => {
       return;
     }
     postMeme(credentials.access_token, title, description, image).then(
-      ([data, error]) => {
+      ([_, error]) => {
         if (error) {
           alert(error);
           return;
         }
-        console.log("Meme uploaded successfully!", data);
         setVisible(false);
         refreshMemes();
       },
