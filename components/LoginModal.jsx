@@ -12,6 +12,7 @@ const LoginModal = ({ visible, setVisible }) => {
   const handleSubmit = async () => {
     const success = await loginUser(username, password);
     if (success) setVisible(false);
+    else alert("Login failed");
   };
 
   return (

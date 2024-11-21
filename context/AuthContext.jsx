@@ -11,7 +11,6 @@ export const AuthProvider = ({ children }) => {
     const [creds, error] = await login(username, password);
     if (error) {
       setIsAuthenticated(false);
-      alert(error);
       return false;
     }
 
