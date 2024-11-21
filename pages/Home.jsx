@@ -1,16 +1,17 @@
 import { useState, useContext } from "react";
-import { View, FlatList, ActivityIndicator, Button, Alert } from "react-native";
+import { View, FlatList, ActivityIndicator, Button } from "react-native";
 import MemeItem from "../components/MemeItem";
 import ImageModal from "../components/ImageModal";
 import LoginModal from "../components/LoginModal";
 import UploadMemeModal from "../components/UploadMemeModal";
 import { AuthContext } from "../context/AuthContext";
-import useMemes from "../services/useMemes";
+import useMemes from "../hooks/useMemes";
 import useUploadMeme from "../services/useUploadMeme";
 
 const Home = () => {
   const { isAuthenticated } = useContext(AuthContext);
-  const { memes, loading, loadMoreMemes } = useMemes();
+
+  const { memes, isLoading, loadMoreMemes } = useMemes();
   const { uploadMeme } = useUploadMeme(); // Get uploadMeme from hook
 
   const [selectedImage, setSelectedImage] = useState(null);
@@ -26,10 +27,10 @@ const Home = () => {
   const handleUpload = async (image, title, description) => {
     try {
       await uploadMeme(image, title, description); // Call uploadMeme function
-      Alert.alert("Success", "Meme uploaded successfully!");
+      alert("Success", "Meme uploaded successfully!");
       setModalUploadVisible(false);
     } catch (error) {
-      Alert.alert("Error", error.message || "Failed to upload meme.");
+      alert("Error", error.message || "Failed to upload meme.");
     }
   };
 
@@ -44,7 +45,7 @@ const Home = () => {
         onEndReached={loadMoreMemes}
         onEndReachedThreshold={0.5}
         ListFooterComponent={
-          loading ? <ActivityIndicator size="large" /> : null
+          isLoading ? <ActivityIndicator size="large" /> : null
         }
       />
 

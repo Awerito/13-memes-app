@@ -22,3 +22,21 @@ export const login = async (username, password) => {
     return [null, error.message];
   }
 };
+
+export const getMemes = async (page, limit) => {
+  try {
+    const response = await fetch(
+      `https://memes-api.grye.org/memes/?page=${page}&limit=${limit}`,
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return [null, "Failed to fetch memes"];
+    }
+
+    return [data, null];
+  } catch (error) {
+    return [null, error.message];
+  }
+};

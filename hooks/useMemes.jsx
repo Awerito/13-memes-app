@@ -1,23 +1,25 @@
 import { useState, useEffect } from "react";
+import { getMemes } from "../services/memes";
 
 const useMemes = () => {
   const [memes, setMemes] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
   const fetchMemes = (page) => {
     setLoading(true);
-    fetch(`https://memes-api.grye.org/memes/?page=${page}&limit=10`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.length > 0) {
-          setMemes((prevMemes) => [...prevMemes, ...data]);
-        } else {
-          setHasMore(false);
+    getMemes(page, 10)
+      .then(([data, error]) => {
+        if (error) {
+          console.error(error);
+          return;
         }
+
+        setHasMore(!!data);
+        if (!!data) setMemes((prevMemes) => [...prevMemes, ...data]);
       })
-      .catch((error) => console.error("Error fetching memes:", error))
+      .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   };
 
@@ -26,12 +28,12 @@ const useMemes = () => {
   }, [page]);
 
   const loadMoreMemes = () => {
-    if (hasMore && !loading) {
+    if (hasMore && !isLoading) {
       setPage((prevPage) => prevPage + 1);
     }
   };
 
-  return { memes, loading, loadMoreMemes };
+  return { memes, isLoading, loadMoreMemes };
 };
 
 export default useMemes;
