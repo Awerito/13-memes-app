@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
   fullScreenImage: {
     width: "90%",
     height: "80%",
-    resizeMode: "contain",
     borderRadius: 8,
   },
 });

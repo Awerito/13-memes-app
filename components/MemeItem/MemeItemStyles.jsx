@@ -9,10 +9,10 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
     borderRadius: 8,
     backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    boxShadowColor: "#000",
+    boxShadowOffset: { width: 0, height: 2 },
+    boxShadowOpacity: 0.1,
+    boxShadowRadius: 4,
     elevation: 2,
   },
   title: {
@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: 300,
-    resizeMode: "contain",
     borderRadius: 6,
     marginVertical: 10,
   },

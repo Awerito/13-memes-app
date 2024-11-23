@@ -7,7 +7,11 @@ function MemeItem({ item, handleImagePress }) {
       <Text style={styles.title}>{item.title}</Text>
       <Text style={styles.description}>{item.description}</Text>
       <TouchableOpacity onPress={() => handleImagePress(item.img_url)}>
-        <Image source={{ uri: item.img_url }} style={styles.image} />
+        <Image
+          resizeMode="contain"
+          source={{ uri: item.img_url }}
+          style={styles.image}
+        />
       </TouchableOpacity>
       <View style={styles.endSeccion}>
         <Text style={styles.likes}>👍 {item.likes}</Text>

@@ -16,7 +16,11 @@ const ImageModal = ({ visible, setVisible, imageUrl }) => {
         >
           <Text style={styles.closeButtonText}>Close</Text>
         </TouchableOpacity>
-        <Image source={{ uri: imageUrl }} style={styles.fullScreenImage} />
+        <Image
+          resizeMode="contain"
+          source={{ uri: imageUrl }}
+          style={styles.fullScreenImage}
+        />
       </View>
     </Modal>
   );
