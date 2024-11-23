@@ -1,11 +1,11 @@
-import Home from "./pages/Home/Home";
-import { AuthProvider } from "./context/AuthContext";
+import Inicio from "./paginas/Inicio/Inicio";
+import { ProveedorAutenticacion } from "./contexto/ContextoAutenticacion";
 
 const App = () => {
   return (
-    <AuthProvider>
-      <Home />
-    </AuthProvider>
+    <ProveedorAutenticacion>
+      <Inicio />
+    </ProveedorAutenticacion>
   );
 };
 

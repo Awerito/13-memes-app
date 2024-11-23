@@ -1,20 +1,20 @@
 import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
-  modalContainer: {
+const estilos = StyleSheet.create({
+  contenedorModal: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)", // Fondo semitransparente
   },
-  modalContent: {
+  contenidoModal: {
     width: 300,
     padding: 20,
     backgroundColor: "white",
     borderRadius: 10,
     alignItems: "center",
   },
-  input: {
+  entradaTexto: {
     width: "100%",
     height: 40,
     borderColor: "#ccc",
@@ -23,9 +23,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     paddingHorizontal: 10,
   },
-  submitButton: {
-    marginTop: 10,
-  },
 });
 
-export default styles;
+export default estilos;

@@ -1,13 +1,13 @@
 import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
-  modalContainer: {
+const estilos = StyleSheet.create({
+  contenedorModal: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.9)",
     justifyContent: "center",
     alignItems: "center",
   },
-  closeButton: {
+  botonCerrado: {
     position: "absolute",
     top: 40,
     right: 20,
@@ -15,17 +15,16 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
   },
-  closeButtonText: {
+  textoBotonCerrado: {
     fontSize: 16,
     fontWeight: "bold",
     color: "#333",
   },
-  fullScreenImage: {
+  imagenPantallaCompleta: {
     width: "90%",
     height: "80%",
-    resizeMode: "contain",
     borderRadius: 8,
   },
 });
 
-export default styles;
+export default estilos;
