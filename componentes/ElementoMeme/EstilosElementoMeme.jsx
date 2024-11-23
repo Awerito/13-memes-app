@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
-  memeContainer: {
+const estilos = StyleSheet.create({
+  contenedorMeme: {
     padding: 15,
     marginVertical: 5,
     marginHorizontal: 15,
@@ -9,46 +9,45 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
     borderRadius: 8,
     backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    boxShadowColor: "#000",
+    boxShadowOffset: { width: 0, height: 2 },
+    boxShadowOpacity: 0.1,
+    boxShadowRadius: 4,
     elevation: 2,
   },
-  title: {
+  titulo: {
     fontSize: 20,
     fontWeight: "600",
     color: "#333",
     marginBottom: 8,
   },
-  description: {
+  descripcion: {
     fontSize: 16,
     color: "#666",
     marginBottom: 10,
   },
-  image: {
+  imagen: {
     width: "100%",
     height: 300,
-    resizeMode: "contain",
     borderRadius: 6,
     marginVertical: 10,
   },
-  likes: {
+  meGusta: {
     fontSize: 16,
     fontWeight: "500",
     color: "#007bff",
     marginTop: 5,
   },
-  user: {
+  usuario: {
     fontSize: 14,
     color: "#888",
     fontStyle: "italic",
     alignSelf: "flex-end",
   },
-  endSeccion: {
+  cierreSeccion: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
 });
 
-export default styles;
+export default estilos;

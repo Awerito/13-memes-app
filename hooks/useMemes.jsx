@@ -1,57 +1,57 @@
 import { useState, useEffect } from "react";
-import { getMemes } from "../services/memes";
+import { obtenerMemes } from "../servicios/memes";
 
 const useMemes = () => {
-  const [memes, setMemes] = useState([]);
-  const [isLoading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const [memes, actualizaMemes] = useState([]);
+  const [estaCargando, actualizaEstaCargando] = useState(false);
+  const [pagina, actualizaPagina] = useState(1);
+  const [hayMas, actualizaHayMas] = useState(true);
 
-  const fetchMemes = (page) => {
-    if (!hasMore) {
-      setLoading(false);
+  const cargarMemes = (pagina) => {
+    if (!hayMas) {
+      actualizaEstaCargando(false);
       return;
     }
 
-    setLoading(true);
-    getMemes(page, 10)
+    actualizaEstaCargando(true);
+    obtenerMemes(pagina, 10)
       .then(([data, error]) => {
         if (error) {
           console.error(error);
-          setLoading(false);
+          actualizaEstaCargando(false);
           return;
         }
 
         if (data.length < 10) {
-          setHasMore(false);
+          actualizaHayMas(false);
         }
 
         if (data.length) {
-          setMemes((prevMemes) => [...prevMemes, ...data]);
+          actualizaMemes((prevMemes) => [...prevMemes, ...data]);
         }
       })
       .catch((error) => console.error(error))
-      .finally(() => setLoading(false));
+      .finally(() => actualizaEstaCargando(false));
   };
 
-  const refreshMemes = () => {
-    setMemes([]);
-    setHasMore(true);
-    setPage(1);
-    fetchMemes(1);
+  const actualizarMemes = () => {
+    actualizaMemes([]);
+    actualizaHayMas(true);
+    actualizaPagina(1);
+    cargarMemes(1);
   };
 
-  const loadMoreMemes = () => {
-    if (hasMore && !isLoading) {
-      setPage((prevPage) => prevPage + 1);
+  const cargarMasMemes = () => {
+    if (hayMas && !estaCargando) {
+      actualizaPagina((prevPage) => prevPage + 1);
     }
   };
 
   useEffect(() => {
-    fetchMemes(page);
-  }, [page]);
+    cargarMemes(pagina);
+  }, [pagina]);
 
-  return { memes, isLoading, loadMoreMemes, refreshMemes };
+  return { memes, estaCargando, cargarMasMemes, actualizarMemes };
 };
 
 export default useMemes;
