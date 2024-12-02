@@ -3,7 +3,7 @@ import * as FileSystem from "expo-file-system";
 
 const urlBase = "https://memes-api.grye.org";
 
-export const autenticar = async (usuario, contraceña) => {
+export const autenticar = async (usuario, contraseña) => {
   try {
     const respuesta = await fetch(`${urlBase}/token`, {
       method: "POST",
@@ -13,14 +13,14 @@ export const autenticar = async (usuario, contraceña) => {
       },
       body: new URLSearchParams({
         username: usuario,
-        password: contraceña,
+        password: contraseña,
       }).toString(),
     });
 
     const data = await respuesta.json();
 
     if (!respuesta.ok) {
-      return [null, "Usuario o contraceña incorrectos"];
+      return [null, "Usuario o contraseña incorrectos"];
     }
 
     return [data, null];
@@ -29,7 +29,7 @@ export const autenticar = async (usuario, contraceña) => {
   }
 };
 
-export const registrar = async (usuario, contraceña) => {
+export const registrar = async (usuario, contraseña) => {
   try {
     const respuesta = await fetch(`${urlBase}/register`, {
       method: "POST",
@@ -39,7 +39,7 @@ export const registrar = async (usuario, contraceña) => {
       },
       body: new URLSearchParams({
         username: usuario,
-        password: contraceña,
+        password: contraseña,
       }).toString(),
     });
 

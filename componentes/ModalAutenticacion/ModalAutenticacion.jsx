@@ -5,12 +5,12 @@ import estilos from "./EstilosModalAutenticacion";
 
 const ModalAutenticacion = ({ visible, actualizaVisibilidad }) => {
   const [usuario, actualizaUsuario] = useState("");
-  const [contraceña, actualizaContraceña] = useState("");
+  const [contraseña, actualizaContraseña] = useState("");
 
   const { autenticarUsuario } = useContext(ContextoAutenticacion);
 
   const manejarEnvio = async () => {
-    const esExitoso = await autenticarUsuario(usuario, contraceña);
+    const esExitoso = await autenticarUsuario(usuario, contraseña);
     if (esExitoso) actualizaVisibilidad(false);
     else alert("Autenticación fallida");
   };
@@ -33,8 +33,8 @@ const ModalAutenticacion = ({ visible, actualizaVisibilidad }) => {
           />
           <TextInput
             placeholder="Contraseña"
-            value={contraceña}
-            onChangeText={actualizaContraceña}
+            value={contraseña}
+            onChangeText={actualizaContraseña}
             secureTextEntry
             style={estilos.entradaTexto}
           />
